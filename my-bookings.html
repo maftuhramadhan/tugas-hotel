@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Saya - Grand Hotel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                    </svg>
+                    <h1 class="text-2xl font-bold text-gray-800">Grand Hotel</h1>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600">Home</a>
+                    <a href="rooms.html" class="text-gray-700 hover:text-purple-600">Kamar</a>
+                    <a href="my-bookings.html" class="text-purple-600 font-semibold hover:text-purple-700">Pemesanan Saya</a>
+                    <a href="rooms.html" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition">Pesan Sekarang</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-gray-700" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-3">
+                <a href="index.html" class="block text-gray-700 hover:bg-gray-100 px-4 py-2 rounded">Home</a>
+                <a href="rooms.html" class="block text-gray-700 hover:bg-gray-100 px-4 py-2 rounded">Kamar</a>
+                <a href="my-bookings.html" class="block text-purple-600 font-semibold hover:bg-purple-50 px-4 py-2 rounded">Pemesanan Saya</a>
+                <a href="rooms.html" class="block bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-center">Pesan Sekarang</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="bg-gradient-to-r from-purple-600 to-purple-800 text-white py-12 md:py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Pemesanan Saya</h2>
+            <p class="text-lg md:text-xl">Kelola semua pemesanan kamar Anda di sini</p>
+        </div>
+    </section>
+
+    <!-- Bookings List -->
+    <section class="py-12 md:py-16">
+        <div class="container mx-auto px-4">
+            <div id="bookingsContainer" class="space-y-6">
+                <!-- Bookings will be rendered here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Kontak Kami</h4>
+                    <p class="mb-2">📞 +62 21 1234 5678</p>
+                    <p class="mb-2">📧 info@grandhotel.com</p>
+                    <p>📍 Jl. Contoh No. 123, Jakarta</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Link Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-purple-400">Home</a></li>
+                        <li><a href="rooms.html" class="hover:text-purple-400">Kamar</a></li>
+                        <li><a href="my-bookings.html" class="hover:text-purple-400">Pemesanan Saya</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Facebook">F</a>
+                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Instagram">I</a>
+                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Twitter">T</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p>&copy; 2025 Grand Hotel. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include app.js -->
+    <script src="scripts/app.js"></script>
+</body>
+</html>

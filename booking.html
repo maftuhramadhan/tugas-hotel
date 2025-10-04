@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pemesanan - Grand Hotel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                    </svg>
+                    <h1 class="text-2xl font-bold text-gray-800">Grand Hotel</h1>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="index.html" class="text-gray-700 hover:text-purple-600">Home</a>
+                    <a href="rooms.html" class="text-gray-700 hover:text-purple-600">Kamar</a>
+                    <a href="my-bookings.html" class="text-gray-700 hover:text-purple-600">Pemesanan Saya</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-gray-700" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-3">
+                <a href="index.html" class="block text-gray-700 hover:bg-gray-100 px-4 py-2 rounded">Home</a>
+                <a href="rooms.html" class="block text-gray-700 hover:bg-gray-100 px-4 py-2 rounded">Kamar</a>
+                <a href="my-bookings.html" class="block text-gray-700 hover:bg-gray-100 px-4 py-2 rounded">Pemesanan Saya</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="bg-gradient-to-r from-purple-600 to-purple-800 text-white py-12 md:py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Form Pemesanan</h2>
+            <p class="text-lg md:text-xl">Lengkapi data Anda untuk menyelesaikan pemesanan</p>
+        </div>
+    </section>
+
+    <!-- Booking Content -->
+    <section class="py-12 md:py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Room Info Card -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Detail Kamar</h3>
+                        <h4 id="roomName" class="text-xl font-semibold text-purple-600 mb-2">-</h4>
+                        <p id="roomDescription" class="text-gray-600 mb-4">-</p>
+                        
+                        <div class="border-t border-gray-200 pt-4 mb-4">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-600">Harga per malam:</span>
+                                <span id="roomPrice" class="font-semibold">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Maksimum tamu:</span>
+                                <span id="roomMaxGuests" class="font-semibold">-</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <p class="text-sm font-medium text-gray-700 mb-2">Fasilitas:</p>
+                            <div id="roomFeatures" class="flex flex-wrap gap-2">
+                                <!-- Features will be rendered here -->
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600 mb-1">Total Pembayaran:</p>
+                            <p id="totalPrice" class="text-2xl font-bold text-purple-600">Rp 0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800">Informasi Pemesanan</h3>
+                        
+                        <form id="bookingForm" class="space-y-6">
+                            <!-- Guest Information -->
+                            <div>
+                                <h4 class="text-lg font-semibold mb-4 text-gray-700">Data Tamu</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="guestName" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap *</label>
+                                        <input type="text" id="guestName" required 
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                                            placeholder="Nama Anda">
+                                    </div>
+                                    <div>
+                                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon *</label>
+                                        <input type="tel" id="phone" required 
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                                            placeholder="08xxxxxxxxxx">
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                    <input type="email" id="email" required 
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                                        placeholder="email@example.com">
+                                </div>
+                            </div>
+
+                            <!-- Booking Details -->
+                            <div class="border-t pt-6">
+                                <h4 class="text-lg font-semibold mb-4 text-gray-700">Detail Menginap</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label for="checkIn" class="block text-sm font-medium text-gray-700 mb-1">Check-in *</label>
+                                        <input type="date" id="checkIn" required 
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="checkOut" class="block text-sm font-medium text-gray-700 mb-1">Check-out *</label>
+                                        <input type="date" id="checkOut" required 
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="guests" class="block text-sm font-medium text-gray-700 mb-1">Jumlah Tamu *</label>
+                                        <input type="number" id="guests" required min="1" 
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                                            placeholder="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Notes -->
+                            <div class="border-t pt-6">
+                                <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Catatan Tambahan (Opsional)</label>
+                                <textarea id="notes" rows="4" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                                    placeholder="Permintaan khusus atau catatan lainnya..."></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="border-t pt-6">
+                                <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition shadow-lg">
+                                    Konfirmasi Pemesanan
+                                </button>
+                                <p class="text-sm text-gray-500 text-center mt-4">
+                                    Dengan melanjutkan, Anda menyetujui syarat dan ketentuan kami
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 md:p-8">
+            <h3 class="text-2xl font-bold mb-4 text-gray-800">Konfirmasi Pemesanan</h3>
+            <p class="text-gray-600 mb-6">Pastikan detail pemesanan Anda sudah benar:</p>
+            
+            <div class="space-y-3 mb-6">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Kamar:</span>
+                    <span id="confirmRoomName" class="font-semibold">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Nama Tamu:</span>
+                    <span id="confirmGuestName" class="font-semibold">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Tanggal:</span>
+                    <span id="confirmDates" class="font-semibold">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Tamu:</span>
+                    <span id="confirmGuests" class="font-semibold">-</span>
+                </div>
+                <div class="flex justify-between border-t pt-3">
+                    <span class="text-gray-800 font-semibold">Total:</span>
+                    <span id="confirmTotal" class="font-bold text-purple-600 text-lg">-</span>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button id="cancelBookingBtn" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition">
+                    Batal
+                </button>
+                <button id="confirmBookingBtn" class="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">
+                    Selesaikan Pemesanan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Kontak Kami</h4>
+                    <p class="mb-2">📞 +62 21 1234 5678</p>
+                    <p class="mb-2">📧 info@grandhotel.com</p>
+                    <p>📍 Jl. Contoh No. 123, Jakarta</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Link Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-purple-400">Home</a></li>
+                        <li><a href="rooms.html" class="hover:text-purple-400">Kamar</a></li>
+                        <li><a href="my-bookings.html" class="hover:text-purple-400">Pemesanan Saya</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Facebook">F</a>
+                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Instagram">I</a>
+                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Twitter">T</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p>&copy; 2025 Grand Hotel. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include app.js -->
+    <script src="scripts/app.js"></script>
+</body>
+</html>
