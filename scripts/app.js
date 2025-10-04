@@ -38,15 +38,6 @@ const ROOMS_DATA = [
         description: "Suite mewah, cocok untuk keluarga atau acara khusus.",
         features: ["Living Area", "Kitchenette", "Private Check-in", "Butler Service"],
         images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop"]
-    },
-    {
-        id: "room-523",
-        name: "Suite",
-        pricePerNight: 1500000,
-        maxGuests: 40,
-        description: "Suite mewah, cocok untuk keluarga atau acara khusus.",
-        features: ["Living Area", "Kitchenette", "Private Check-in", "Butler Service"],
-        images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop"]
     }
 ];
 
