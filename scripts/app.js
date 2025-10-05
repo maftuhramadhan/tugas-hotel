@@ -43,6 +43,11 @@ const ROOMS_DATA = [
 
 const STORAGE_KEY = 'hotel_bookings_v1';
 
+// Nomor WhatsApp hotel (ganti dengan nomor WhatsApp Anda)
+// Format: 62 (kode negara) + nomor tanpa 0 di depan
+// Contoh: 081234567890 -> 6281234567890
+const HOTEL_WHATSAPP = '6283856417885'; // GANTI DENGAN NOMOR WA HOTEL ANDA
+
 // ============================================
 // UTILITY FUNCTIONS
 // ============================================
