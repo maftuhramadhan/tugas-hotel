@@ -7,7 +7,7 @@ const ROOMS_DATA = [
         id: "room-101",
         name: "Single Room",
         pricePerNight: 350000,
-        maxGuests: 1,
+        maxGuests: 3,
         description: "Kamar nyaman untuk 1 orang, cocok untuk perjalanan singkat.",
         features: ["Bed 1x", "Free Wi-Fi", "AC", "Shower"],
         images: ["https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400&h=300&fit=crop"]
@@ -16,7 +16,7 @@ const ROOMS_DATA = [
         id: "room-102",
         name: "Double Room",
         pricePerNight: 550000,
-        maxGuests: 2,
+        maxGuests: 4,
         description: "Kamar luas untuk dua orang dengan pemandangan kota.",
         features: ["Bed 2x", "Free Breakfast", "TV", "Mini Fridge"],
         images: ["https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400&h=300&fit=crop"]
@@ -25,7 +25,7 @@ const ROOMS_DATA = [
         id: "room-201",
         name: "Deluxe Room",
         pricePerNight: 850000,
-        maxGuests: 3,
+        maxGuests: 6,
         description: "Deluxe room dengan fasilitas lengkap dan balkon.",
         features: ["Balkon", "King Bed", "Jacuzzi", "Room Service"],
         images: ["https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=300&fit=crop"]
@@ -34,7 +34,7 @@ const ROOMS_DATA = [
         id: "room-301",
         name: "Suite",
         pricePerNight: 1500000,
-        maxGuests: 4,
+        maxGuests: 8,
         description: "Suite mewah, cocok untuk keluarga atau acara khusus.",
         features: ["Living Area", "Kitchenette", "Private Check-in", "Butler Service"],
         images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop"]
