@@ -3,172 +3,1098 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Paradise - Pemesanan Hotel Online</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Royal Paradise - Hotel Management System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* Custom Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body { font-family: 'Poppins', sans-serif; }
+        
         .hero-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+        
+        /* Invoice Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #invoice-area, #invoice-area * { visibility: visible; }
+            #invoice-area { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Slider Animations */
+        .slider-image { transition: opacity 0.3s ease-in-out; }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- NAVIGATION -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <svg class="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="router.navigate('home')">
+                    <i class="fa-solid fa-hotel text-3xl text-purple-600"></i>
                     <h1 class="text-2xl font-bold text-gray-800">Royal Paradise</h1>
                 </div>
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-6 items-center">
-                    <a href="index.html" class="text-purple-600 font-semibold hover:text-purple-700">Home</a>
-                    <a href="rooms.html" class="text-gray-700 hover:text-purple-600">Kamar</a>
-                    <a href="my-bookings.html" class="text-gray-700 hover:text-purple-600">Pemesanan Saya</a>
-                    <a href="rooms.html" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition">Pesan Sekarang</a>
+                    <button onclick="router.navigate('home')" class="text-gray-600 hover:text-purple-600 font-medium">Home</button>
+                    <button onclick="router.navigate('rooms')" class="text-gray-600 hover:text-purple-600 font-medium">Kategori Kamar</button>
+                    <button onclick="router.navigate('my-bookings')" class="text-gray-600 hover:text-purple-600 font-medium">Cek Pesanan</button>
+                    <button onclick="router.navigate('admin-login')" class="text-sm bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition"><i class="fa-solid fa-user-shield"></i> Admin</button>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden text-gray-700" aria-label="Toggle menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
+                <button id="mobileMenuBtn" class="md:hidden text-gray-700 text-2xl">
+                    <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
 
             <!-- Mobile Menu -->
-            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-3">
-                <a href="index.html" class="block text-purple-600 font-semibold hover:bg-purple-50 px-4 py-2 rounded">Home</a>
-                <a href="rooms.html" class="block text-gray-700 hover:bg-gray-100 px-4 py-2 rounded">Kamar</a>
-                <a href="my-bookings.html" class="block text-gray-700 hover:bg-gray-100 px-4 py-2 rounded">Pemesanan Saya</a>
-                <a href="rooms.html" class="block bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 text-center">Pesan Sekarang</a>
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-3 bg-white border-t">
+                <button onclick="router.navigate('home'); toggleMenu()" class="block w-full text-left text-gray-700 px-4 py-2 hover:bg-purple-50">Home</button>
+                <button onclick="router.navigate('rooms'); toggleMenu()" class="block w-full text-left text-gray-700 px-4 py-2 hover:bg-purple-50">Kategori Kamar</button>
+                <button onclick="router.navigate('my-bookings'); toggleMenu()" class="block w-full text-left text-gray-700 px-4 py-2 hover:bg-purple-50">Cek Pesanan</button>
+                <button onclick="router.navigate('admin-login'); toggleMenu()" class="block w-full text-left text-gray-700 px-4 py-2 hover:bg-purple-50">Admin Panel</button>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero-bg text-white py-20 md:py-32">
+    <!-- MAIN CONTENT CONTAINER -->
+    <main id="app" class="min-h-screen pb-10">
+        <!-- Content will be injected here by JavaScript -->
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-white py-12 mt-auto">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Selamat Datang di Royal Paradise</h2>
-            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Nikmati pengalaman menginap yang tak terlupakan dengan fasilitas bintang lima dan pelayanan terbaik</p>
-            <a href="rooms.html" class="inline-block bg-white text-purple-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition shadow-lg">
-                Jelajahi Kamar Kami
-            </a>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="py-16 md:py-20 bg-white">
-        <div class="container mx-auto px-4">
-            <h3 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Fasilitas Unggulan</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Feature 1 -->
-                <div class="text-center p-6 rounded-lg hover:shadow-lg transition">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-800">Free Wi-Fi</h4>
-                    <p class="text-gray-600">Internet cepat di seluruh area hotel</p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="text-center p-6 rounded-lg hover:shadow-lg transition">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-800">24/7 Service</h4>
-                    <p class="text-gray-600">Layanan resepsionis 24 jam</p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="text-center p-6 rounded-lg hover:shadow-lg transition">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-800">Room Service</h4>
-                    <p class="text-gray-600">Pesan makanan ke kamar Anda</p>
-                </div>
-
-                <!-- Feature 4 -->
-                <div class="text-center p-6 rounded-lg hover:shadow-lg transition">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                        </svg>
-                    </div>
-                    <h4 class="text-xl font-semibold mb-2 text-gray-800">Keamanan</h4>
-                    <p class="text-gray-600">Keamanan 24 jam dengan CCTV</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-16 md:py-20 bg-gray-100">
-        <div class="container mx-auto px-4 text-center">
-            <h3 class="text-3xl md:text-4xl font-bold mb-6 text-gray-800">Siap Untuk Menginap?</h3>
-            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">Pesan kamar Anda sekarang dan nikmati pengalaman menginap yang luar biasa dengan harga terbaik</p>
-            <a href="rooms.html" class="inline-block bg-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-700 transition shadow-lg">
-                Lihat Kamar Tersedia
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Contact Info -->
-                <div>
-                    <h4 class="text-xl font-semibold mb-4">Kontak Kami</h4>
-                    <p class="mb-2">📞 +62 83856417885</p>
-                    <p class="mb-2">📧 info@grandhotel.com</p>
-                    <p>📍 Jl. Bireun No. 123, aceh</p>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="text-xl font-semibold mb-4">Link Cepat</h4>
-                    <ul class="space-y-2">
-                        <li><a href="index.html" class="hover:text-purple-400">Home</a></li>
-                        <li><a href="rooms.html" class="hover:text-purple-400">Kamar</a></li>
-                        <li><a href="my-bookings.html" class="hover:text-purple-400">Pemesanan Saya</a></li>
-                    </ul>
-                </div>
-
-                <!-- Social Media -->
-                <div>
-                    <h4 class="text-xl font-semibold mb-4">Ikuti Kami</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Facebook">F</a>
-                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Instagram">I</a>
-                        <a href="#" class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700" aria-label="Twitter">T</a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-                <p>&copy; 2025 Royal Paradise. All rights reserved.</p>
-            </div>
+            <h4 class="text-xl font-bold mb-4">Royal Paradise Hotel</h4>
+            <p class="mb-4">Jl. Bireun No. 123, Aceh | +62 838-5641-7885</p>
+            <p class="text-gray-400 text-sm">&copy; 2025 Royal Paradise. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
+        // ==========================================
+        // 1. DATABASE & STATE MANAGEMENT
+        // ==========================================
+        
+        // Kategori Kamar (Induk)
+        const ROOM_CATEGORIES = [
+            {
+                id: "single",
+                name: "Single Room",
+                basePrice: 350000,
+                coverImage: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&fit=crop",
+                desc: "Kamar minimalis modern, sempurna untuk pelancong solo atau urusan bisnis."
+            },
+            {
+                id: "double",
+                name: "Double Room",
+                basePrice: 550000,
+                coverImage: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&fit=crop",
+                desc: "Kenyamanan ekstra dengan ruang lebih luas untuk dua orang."
+            },
+            {
+                id: "suite",
+                name: "Royal Suite",
+                basePrice: 1500000,
+                coverImage: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&fit=crop",
+                desc: "Pengalaman menginap mewah dengan fasilitas premium dan pemandangan kota."
+            }
+        ];
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        // Unit Kamar (Detail Spesifik) - Status default "available"
+        const ROOM_UNITS = [
+            // --- SINGLE ROOM UNITS (6 Kamar) ---
+            { 
+                id: "101", categoryId: "single", name: "Kamar 101 (Garden View)", price: 350000, desc: "Menghadap taman, suasana tenang, lantai dasar.", features: ["1 King Bed", "Shower", "AC", "Teras Taman"],
+                images: ["https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&fit=crop", "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800&fit=crop"]
+            },
+            { 
+                id: "102", categoryId: "single", name: "Kamar 102 (Near Lobby)", price: 350000, desc: "Akses mudah ke lobby dan restoran, lantai dasar.", features: ["1 King Bed", "Shower", "AC", "Smart TV"],
+                images: ["https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&fit=crop", "https://images.unsplash.com/photo-1522771753035-4850d32f3099?w=800&fit=crop"]
+            },
+            { 
+                id: "103", categoryId: "single", name: "Kamar 103 (Standard)", price: 350000, desc: "Kamar standard yang nyaman dan efisien.", features: ["1 King Bed", "Shower", "AC", "WiFi"],
+                images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&fit=crop", "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&fit=crop"]
+            },
+            { 
+                id: "104", categoryId: "single", name: "Kamar 104 (Standard)", price: 350000, desc: "Pilihan hemat dengan fasilitas lengkap.", features: ["1 King Bed", "Shower", "AC", "Work Desk"],
+                images: ["https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&fit=crop", "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&fit=crop"]
+            },
+            { 
+                id: "105", categoryId: "single", name: "Kamar 105 (Corner)", price: 375000, desc: "Kamar sudut dengan jendela lebih lebar.", features: ["1 King Bed", "Shower", "AC", "Corner View"],
+                images: ["https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&fit=crop", "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&fit=crop"]
+            },
+            { 
+                id: "106", categoryId: "single", name: "Kamar 106 (Quiet Zone)", price: 360000, desc: "Area tenang jauh dari kebisingan jalan.", features: ["1 King Bed", "Shower", "AC", "Soundproof"],
+                images: ["https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&fit=crop", "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&fit=crop"]
+            },
+            
+            // --- DOUBLE ROOM UNITS (4 Kamar) ---
+            { 
+                id: "201", categoryId: "double", name: "Kamar 201 (Balcony)", price: 550000, desc: "Lantai 2 dengan balkon pribadi menghadap kolam renang.", features: ["2 Queen Beds", "Bathtub", "Balcony", "Fridge"],
+                images: ["https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&fit=crop", "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&fit=crop"]
+            },
+            { 
+                id: "202", categoryId: "double", name: "Kamar 202 (City View)", price: 600000, desc: "Pemandangan kota yang indah saat malam hari.", features: ["2 Queen Beds", "Shower", "Work Desk", "City View"],
+                images: ["https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&fit=crop", "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&fit=crop"]
+            },
+            { 
+                id: "203", categoryId: "double", name: "Kamar 203 (Pool Side)", price: 575000, desc: "Akses langsung melihat kolam renang.", features: ["2 Queen Beds", "Shower", "Sofa", "Pool View"],
+                images: ["https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&fit=crop", "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&fit=crop"]
+            },
+            { 
+                id: "204", categoryId: "double", name: "Kamar 204 (Family)", price: 650000, desc: "Ruangan lebih luas cocok untuk keluarga kecil.", features: ["2 Queen Beds", "Bathtub", "Living Area", "TV 50 Inch"],
+                images: ["https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&fit=crop", "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&fit=crop"]
+            },
+
+            // --- SUITE UNITS (14 Kamar) ---
+            { 
+                id: "301", categoryId: "suite", name: "Royal Suite 301 (Presidential)", price: 1500000, desc: "Unit termewah dengan ruang tamu terpisah.", features: ["King Size Bed", "Kitchen", "Jacuzzi", "Living Room"],
+                images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&fit=crop", "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&fit=crop"]
+            },
+            { 
+                id: "302", categoryId: "suite", name: "Royal Suite 302 (Family)", price: 1400000, desc: "Cocok untuk keluarga besar, connecting door.", features: ["2 King Beds", "Kitchen", "Bathtub", "Netflix"],
+                images: ["https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&fit=crop", "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&fit=crop"]
+            },
+            { 
+                id: "303", categoryId: "suite", name: "Royal Suite 303 (Executive)", price: 1350000, desc: "Desain elegan untuk pebisnis profesional.", features: ["King Bed", "Work Station", "Coffee Machine", "City View"],
+                images: ["https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&fit=crop", "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&fit=crop"]
+            },
+            { 
+                id: "304", categoryId: "suite", name: "Royal Suite 304 (Executive)", price: 1350000, desc: "Fasilitas lengkap dengan minibar gratis.", features: ["King Bed", "Work Station", "Minibar", "Lounge Access"],
+                images: ["https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&fit=crop", "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&fit=crop"]
+            },
+            { 
+                id: "305", categoryId: "suite", name: "Royal Suite 305 (Panoramic)", price: 1600000, desc: "Jendela full kaca dengan pemandangan 180 derajat.", features: ["King Bed", "Panoramic View", "Telescope", "Bathtub"],
+                images: ["https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&fit=crop", "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&fit=crop"]
+            },
+            { 
+                id: "306", categoryId: "suite", name: "Royal Suite 306 (Panoramic)", price: 1600000, desc: "Nikmati sunrise terbaik dari kamar ini.", features: ["King Bed", "Sunrise View", "Bathtub", "Smart Home"],
+                images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&fit=crop", "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&fit=crop"]
+            },
+            { 
+                id: "307", categoryId: "suite", name: "Royal Suite 307 (Honeymoon)", price: 1450000, desc: "Dekorasi romantis khusus pasangan.", features: ["Round Bed", "Romantic Decor", "Bathtub", "Sound System"],
+                images: ["https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&fit=crop", "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&fit=crop"]
+            },
+            { 
+                id: "308", categoryId: "suite", name: "Royal Suite 308 (Honeymoon)", price: 1450000, desc: "Suasana intim dan hangat.", features: ["King Bed", "Dim Light", "Bathtub", "Flower Setup"],
+                images: ["https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&fit=crop", "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&fit=crop"]
+            },
+            { 
+                id: "309", categoryId: "suite", name: "Royal Suite 309 (Business)", price: 1300000, desc: "Dilengkapi ruang meeting privat kecil.", features: ["King Bed", "Meeting Table", "High Speed WiFi", "Printer"],
+                images: ["https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&fit=crop", "https://images.unsplash.com/photo-1522771753035-4850d32f3099?w=800&fit=crop"]
+            },
+            { 
+                id: "310", categoryId: "suite", name: "Royal Suite 310 (Business)", price: 1300000, desc: "Tenang dan kondusif untuk bekerja.", features: ["King Bed", "Ergonomic Chair", "Coffee Maker", "Smart TV"],
+                images: ["https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&fit=crop", "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800&fit=crop"]
+            },
+            { 
+                id: "311", categoryId: "suite", name: "Royal Suite 311 (Deluxe)", price: 1550000, desc: "Interior klasik eropa yang mewah.", features: ["King Bed", "Classic Decor", "Chandelier", "Bathtub"],
+                images: ["https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&fit=crop", "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&fit=crop"]
+            },
+            { 
+                id: "312", categoryId: "suite", name: "Royal Suite 312 (Deluxe)", price: 1550000, desc: "Nuansa modern kontemporer.", features: ["King Bed", "Modern Art", "Smart Control", "Rain Shower"],
+                images: ["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&fit=crop", "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&fit=crop"]
+            },
+            { 
+                id: "313", categoryId: "suite", name: "Royal Suite 313 (Penthouse A)", price: 2500000, desc: "Lantai teratas dengan akses rooftop pribadi.", features: ["Master Bed", "Rooftop Access", "Private Pool", "Butler"],
+                images: ["https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&fit=crop", "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&fit=crop"]
+            },
+            { 
+                id: "314", categoryId: "suite", name: "Royal Suite 314 (Penthouse B)", price: 2500000, desc: "View 360 derajat kota dari ketinggian.", features: ["Master Bed", "Sky View", "Jacuzzi", "Private Lift"],
+                images: ["https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&fit=crop", "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&fit=crop"]
+            }
+        ];
+
+        // Admin Credentials
+        const ADMIN_AUTH = { user: "admin", pass: "admin123" };
+        const HOTEL_WA = "6283856417885";
+
+        // Global State
+        let tempBooking = null; // Menyimpan data booking sementara sebelum bayar
+        let sliderIndices = {}; // Menyimpan index foto aktif untuk setiap slider unit
+
+        // LocalStorage Helpers
+        const db = {
+            getBookings: () => JSON.parse(localStorage.getItem('rp_bookings')) || [],
+            saveBooking: (booking) => {
+                const bookings = db.getBookings();
+                bookings.push(booking);
+                localStorage.setItem('rp_bookings', JSON.stringify(bookings));
+            },
+            
+            // FUNGSI BARU: Mengambil status kamar (Tersedia/Booked)
+            getUnitStatus: (id) => {
+                const statuses = JSON.parse(localStorage.getItem('rp_room_statuses')) || {};
+                // Default ke 'available' jika belum ada di storage
+                // Kecuali untuk Kamar 202 yang default-nya maintenance di kode sebelumnya
+                if (statuses[id]) return statuses[id];
+                if (id === '202') return 'maintenance'; // Hardcode maintenance for demo
+                return 'available';
+            },
+
+            // FUNGSI BARU: Mengupdate status kamar
+            updateUnitStatus: (id, status) => {
+                const statuses = JSON.parse(localStorage.getItem('rp_room_statuses')) || {};
+                statuses[id] = status;
+                localStorage.setItem('rp_room_statuses', JSON.stringify(statuses));
+            }
+        };
+
+        // Utility: Format Rupiah
+        const formatRp = (num) => "Rp " + num.toLocaleString('id-ID');
+
+        // ==========================================
+        // 2. ROUTER & VIEWS
+        // ==========================================
+
+        const app = document.getElementById('app');
+
+        const router = {
+            navigate: (page, params = null) => {
+                window.scrollTo(0, 0);
+                app.innerHTML = ''; // Clear content
+                
+                switch(page) {
+                    case 'home': app.innerHTML = views.home(); break;
+                    case 'rooms': app.innerHTML = views.rooms(); break;
+                    case 'category-detail': app.innerHTML = views.categoryDetail(params); break; // params = categoryId
+                    case 'booking': app.innerHTML = views.booking(params); break; // params = unitId
+                    case 'payment': app.innerHTML = views.payment(); break;
+                    case 'invoice': app.innerHTML = views.invoice(params); break; 
+                    case 'my-bookings': app.innerHTML = views.myBookings(); break;
+                    case 'admin-login': app.innerHTML = views.adminLogin(); break;
+                    case 'admin-dashboard': app.innerHTML = views.adminDashboard(); break;
+                    default: app.innerHTML = views.home();
+                }
+
+                attachListeners();
+            }
+        };
+
+        // ==========================================
+        // 3. VIEW TEMPLATES (HTML Generators)
+        // ==========================================
+
+        const views = {
+            home: () => `
+                <section class="hero-bg text-white py-24 md:py-32 fade-in relative overflow-hidden">
+                    <div class="absolute inset-0 bg-black opacity-20"></div>
+                    <div class="container mx-auto px-4 text-center relative z-10">
+                        <h2 class="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">Selamat Datang di Royal Paradise</h2>
+                        <p class="text-xl mb-8 max-w-2xl mx-auto drop-shadow-md">Temukan kenyamanan sejati dengan berbagai pilihan kamar eksklusif kami.</p>
+                        <button onclick="router.navigate('rooms')" class="bg-white text-purple-600 px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:bg-gray-100 transition transform hover:scale-105">
+                            Lihat Kategori Kamar
+                        </button>
+                    </div>
+                </section>
+                <section class="py-16 bg-white">
+                    <div class="container mx-auto px-4">
+                        <h3 class="text-3xl font-bold mb-10 text-center text-purple-800">Fasilitas Unggulan</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                            <div class="p-4 bg-purple-50 rounded-xl hover:shadow-md transition">
+                                <i class="fa-solid fa-wifi text-3xl text-purple-600 mb-2"></i>
+                                <p class="font-semibold">Free WiFi</p>
+                            </div>
+                            <div class="p-4 bg-purple-50 rounded-xl hover:shadow-md transition">
+                                <i class="fa-solid fa-person-swimming text-3xl text-purple-600 mb-2"></i>
+                                <p class="font-semibold">Kolam Renang</p>
+                            </div>
+                            <div class="p-4 bg-purple-50 rounded-xl hover:shadow-md transition">
+                                <i class="fa-solid fa-utensils text-3xl text-purple-600 mb-2"></i>
+                                <p class="font-semibold">Restoran</p>
+                            </div>
+                            <div class="p-4 bg-purple-50 rounded-xl hover:shadow-md transition">
+                                <i class="fa-solid fa-shield-halved text-3xl text-purple-600 mb-2"></i>
+                                <p class="font-semibold">Keamanan 24J</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            rooms: () => {
+                // Tampilkan Kategori Utama
+                let html = `
+                <div class="container mx-auto px-4 py-12 fade-in">
+                    <h2 class="text-3xl font-bold text-center mb-2 text-gray-800">Kategori Kamar</h2>
+                    <p class="text-center text-gray-500 mb-10">Pilih tipe kamar yang Anda inginkan untuk melihat unit tersedia</p>
+                    <div class="grid md:grid-cols-3 gap-8">`;
+                
+                ROOM_CATEGORIES.forEach(cat => {
+                    // Hitung jumlah unit tersedia (REAL-TIME dari db)
+                    const unitCount = ROOM_UNITS.filter(u => u.categoryId === cat.id && db.getUnitStatus(u.id) === 'available').length;
+                    
+                    html += `
+                    <div onclick="router.navigate('category-detail', '${cat.id}')" class="group cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-full hover:shadow-2xl transition transform hover:-translate-y-1">
+                        <div class="relative overflow-hidden">
+                            <img src="${cat.coverImage}" class="h-64 w-full object-cover transition duration-500 group-hover:scale-110" alt="${cat.name}">
+                            <div class="absolute top-4 right-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm">
+                                ${unitCount} Unit Tersedia
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-purple-600 transition">${cat.name}</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">${cat.desc}</p>
+                            <div class="mt-auto flex justify-between items-center border-t pt-4">
+                                <div>
+                                    <p class="text-xs text-gray-500">Mulai dari</p>
+                                    <p class="text-xl font-bold text-purple-600">${formatRp(cat.basePrice)}</p>
+                                </div>
+                                <span class="bg-purple-100 text-purple-600 w-10 h-10 rounded-full flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+                
+                html += `</div></div>`;
+                return html;
+            },
+
+            categoryDetail: (catId) => {
+                const cat = ROOM_CATEGORIES.find(c => c.id === catId);
+                const units = ROOM_UNITS.filter(u => u.categoryId === catId);
+
+                // Initialize slider indices for displayed units
+                units.forEach(u => sliderIndices[u.id] = 0);
+
+                let unitsHtml = '';
+                units.forEach(unit => {
+                    // AMBIL STATUS DARI DB (LocalStorage)
+                    const currentStatus = db.getUnitStatus(unit.id);
+                    const isAvailable = currentStatus === 'available';
+                    
+                    const statusClass = isAvailable ? 'bg-green-100 text-green-700' : (currentStatus === 'booked' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700');
+                    const statusText = isAvailable ? 'Tersedia' : (currentStatus === 'booked' ? 'Terpesan' : 'Maintenance');
+
+                    // Slider Images
+                    const imgHtml = unit.images.map((img, idx) => 
+                        `<img src="${img}" class="absolute inset-0 w-full h-full object-cover slider-image ${idx === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}" id="img-${unit.id}-${idx}">`
+                    ).join('');
+
+                    // Dots indicators
+                    const dotsHtml = unit.images.map((_, idx) => 
+                        `<div class="w-2 h-2 rounded-full bg-white transition-all shadow-sm ${idx === 0 ? 'bg-opacity-100 w-4' : 'bg-opacity-50'}" id="dot-${unit.id}-${idx}"></div>`
+                    ).join('');
+
+                    unitsHtml += `
+                    <div class="bg-white rounded-xl shadow border border-gray-100 overflow-hidden flex flex-col md:flex-row mb-6 fade-in hover:shadow-lg transition">
+                        <!-- Image Slider Section -->
+                        <div class="md:w-5/12 relative h-64 md:h-auto bg-gray-200 group">
+                            ${imgHtml}
+                            
+                            <!-- Slider Controls -->
+                            <div class="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition z-20">
+                                <button onclick="changeSlide('${unit.id}', -1)" class="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full hover:bg-opacity-80 transition"><i class="fa-solid fa-chevron-left"></i></button>
+                                <button onclick="changeSlide('${unit.id}', 1)" class="bg-black bg-opacity-50 text-white w-8 h-8 rounded-full hover:bg-opacity-80 transition"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            
+                            <!-- Indicators -->
+                            <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 z-20">
+                                ${dotsHtml}
+                            </div>
+
+                            <div class="absolute top-4 left-4 z-20">
+                                <span class="${statusClass} text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">
+                                    ${statusText}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Content Section -->
+                        <div class="p-6 md:w-7/12 flex flex-col">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-gray-800">${unit.name}</h3>
+                                <p class="text-xl font-bold text-purple-600">${formatRp(unit.price)}</p>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">${unit.desc}</p>
+                            
+                            <!-- Facilities Grid -->
+                            <div class="grid grid-cols-2 gap-2 mb-6">
+                                ${unit.features.map(f => `
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <i class="fa-solid fa-check text-green-500 mr-2"></i> ${f}
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="mt-auto text-right">
+                                ${isAvailable ? 
+                                    `<button onclick="router.navigate('booking', '${unit.id}')" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition shadow-md w-full md:w-auto">
+                                        Pesan Kamar Ini
+                                    </button>` : 
+                                    `<button disabled class="bg-gray-300 text-gray-500 px-6 py-2 rounded-lg cursor-not-allowed w-full md:w-auto">
+                                        Tidak Tersedia
+                                    </button>`
+                                }
+                            </div>
+                        </div>
+                    </div>`;
+                });
+
+                return `
+                <div class="container mx-auto px-4 py-10">
+                    <button onclick="router.navigate('rooms')" class="mb-6 text-gray-500 hover:text-purple-600 flex items-center font-medium"><i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke Kategori</button>
+                    
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-gray-800">${cat.name}</h2>
+                        <p class="text-gray-500 max-w-2xl mx-auto mt-2">${cat.desc}</p>
+                    </div>
+
+                    <div class="max-w-5xl mx-auto">
+                        ${unitsHtml}
+                    </div>
+                </div>`;
+            },
+
+            booking: (unitId) => {
+                const unit = ROOM_UNITS.find(u => u.id === unitId);
+                const cat = ROOM_CATEGORIES.find(c => c.id === unit.categoryId);
+                
+                // Guard: Jika status bukan available, tendang balik
+                if (!unit || db.getUnitStatus(unitId) !== 'available') { 
+                    alert("Maaf, kamar ini sudah tidak tersedia.");
+                    router.navigate('rooms'); 
+                    return ''; 
+                }
+
+                return `
+                <div class="container mx-auto px-4 py-10 fade-in max-w-6xl">
+                    <button onclick="router.navigate('category-detail', '${cat.id}')" class="mb-6 text-gray-500 hover:text-purple-600"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+                    
+                    <div class="grid md:grid-cols-12 gap-8">
+                        <!-- Info Kamar -->
+                        <div class="md:col-span-5">
+                            <div class="bg-white rounded-xl shadow-lg overflow-hidden sticky top-24">
+                                <img src="${unit.images[0]}" class="w-full h-56 object-cover" alt="${unit.name}">
+                                <div class="p-6">
+                                    <h2 class="text-2xl font-bold text-gray-800 mb-1">${unit.name}</h2>
+                                    <p class="text-sm text-gray-500 mb-4">${cat.name}</p>
+                                    <div class="flex justify-between items-center mb-6 border-b pb-4">
+                                        <span class="text-gray-600">Harga per malam</span>
+                                        <span class="text-xl font-bold text-purple-600">${formatRp(unit.price)}</span>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <h4 class="font-bold text-sm text-gray-700">Fasilitas Unit:</h4>
+                                        <div class="flex flex-wrap gap-2">
+                                            ${unit.features.map(f => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${f}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Booking -->
+                        <div class="md:col-span-7">
+                            <div class="bg-white p-8 rounded-xl shadow-xl border border-gray-100">
+                                <div class="flex items-center mb-6">
+                                    <div class="bg-purple-100 p-3 rounded-full mr-4 text-purple-600">
+                                        <i class="fa-regular fa-calendar-check text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold">Lengkapi Data Pemesanan</h3>
+                                        <p class="text-sm text-gray-500">Pastikan data Anda sesuai identitas</p>
+                                    </div>
+                                </div>
+                                
+                                <form id="bookingForm" onsubmit="handleBookingSubmit(event, '${unit.id}')">
+                                    <div class="grid grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">Check-In</label>
+                                            <input type="date" id="checkIn" required class="w-full px-3 py-2 border rounded-lg focus:ring-purple-500 transition focus:border-purple-500 outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">Check-Out</label>
+                                            <input type="date" id="checkOut" required class="w-full px-3 py-2 border rounded-lg focus:ring-purple-500 transition focus:border-purple-500 outline-none">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-purple-50 p-3 rounded mb-4 text-sm text-purple-800 hidden" id="stayDurationInfo">
+                                        <i class="fa-solid fa-clock mr-1"></i> Durasi menginap: <span id="durationDays" class="font-bold">0</span> malam
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">Nama Lengkap</label>
+                                        <input type="text" id="guestName" required placeholder="Sesuai KTP" class="w-full px-3 py-2 border rounded-lg focus:ring-purple-500 outline-none">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">No. WhatsApp</label>
+                                        <input type="tel" id="guestPhone" required placeholder="08..." class="w-full px-3 py-2 border rounded-lg focus:ring-purple-500 outline-none">
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">Catatan Khusus (Opsional)</label>
+                                        <textarea id="guestNotes" rows="2" placeholder="Contoh: Check-in terlambat, minta extra bantal..." class="w-full px-3 py-2 border rounded-lg focus:ring-purple-500 outline-none"></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" class="w-full bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition shadow-lg transform active:scale-95">
+                                        Lanjut ke Pembayaran <i class="fa-solid fa-arrow-right ml-2"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            },
+
+            payment: () => {
+                if (!tempBooking) { router.navigate('home'); return ''; }
+                return `
+                <div class="container mx-auto px-4 py-12 max-w-2xl fade-in">
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                        <div class="bg-gradient-to-r from-purple-600 to-purple-800 p-6 text-white text-center">
+                            <h2 class="text-2xl font-bold">Pembayaran</h2>
+                            <p class="text-purple-100 text-sm opacity-90">Selesaikan pembayaran untuk mengamankan kamar Anda</p>
+                        </div>
+                        <div class="p-8">
+                            <div class="bg-gray-50 p-5 rounded-xl mb-6 border border-gray-100">
+                                <div class="flex justify-between items-center mb-2">
+                                    <p class="text-gray-500">Total Tagihan</p>
+                                    <p class="font-mono font-bold text-purple-600 text-lg">#${tempBooking.id.slice(-6)}</p>
+                                </div>
+                                <p class="text-3xl font-bold text-gray-800 mb-1">${formatRp(tempBooking.totalPrice)}</p>
+                                <p class="text-sm text-gray-500">${tempBooking.nights} malam @ ${formatRp(tempBooking.pricePerNight)}</p>
+                            </div>
+
+                            <div class="mb-8">
+                                <h3 class="font-bold mb-3 text-gray-700">Metode Transfer</h3>
+                                <div class="border p-4 rounded-xl flex items-center bg-white shadow-sm">
+                                    <div class="bg-blue-600 text-white w-12 h-8 flex items-center justify-center rounded font-bold italic mr-4">BCA</div>
+                                    <div>
+                                        <p class="font-bold text-gray-800">Royal Paradise Corp</p>
+                                        <p class="text-gray-500 font-mono tracking-wider">123 456 7890</p>
+                                    </div>
+                                    <button onclick="navigator.clipboard.writeText('1234567890'); alert('No Rekening Disalin!')" class="ml-auto text-purple-600 hover:bg-purple-50 p-2 rounded-full transition">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <form onsubmit="handlePaymentSubmit(event)">
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Upload Bukti Transfer</label>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-purple-500 hover:bg-purple-50 transition cursor-pointer group">
+                                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 mb-3 group-hover:text-purple-500 transition"></i>
+                                        <p class="text-sm text-gray-500 group-hover:text-purple-600">Klik area ini untuk upload file gambar</p>
+                                        <input type="file" class="hidden"> 
+                                    </div>
+                                </div>
+                                <button type="submit" class="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition shadow-lg transform hover:scale-[1.01]">
+                                    Saya Sudah Transfer <i class="fa-solid fa-check-circle ml-2"></i>
+                                </button>
+                                <button type="button" onclick="router.navigate('home')" class="w-full mt-4 text-gray-400 text-sm hover:text-red-500 transition">Batalkan Pesanan</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>`;
+            },
+
+            invoice: (booking) => {
+                const bookingData = booking || tempBooking;
+                if (!bookingData) { router.navigate('home'); return ''; }
+
+                return `
+                <div class="container mx-auto px-4 py-8 fade-in">
+                    <div id="invoice-area" class="bg-white max-w-3xl mx-auto p-10 rounded-xl shadow-2xl border border-gray-200 relative overflow-hidden">
+                        <!-- Decor -->
+                        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-indigo-600"></div>
+
+                        <!-- Header Invoice -->
+                        <div class="flex justify-between items-start border-b border-gray-100 pb-8 mb-8">
+                            <div>
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <i class="fa-solid fa-hotel text-2xl text-purple-600"></i>
+                                    <h1 class="text-2xl font-bold text-gray-800">Royal Paradise</h1>
+                                </div>
+                                <p class="text-gray-500 text-sm">Jl. Bireun No. 123, Aceh</p>
+                                <p class="text-gray-500 text-sm">+62 838-5641-7885</p>
+                            </div>
+                            <div class="text-right">
+                                <h2 class="text-3xl font-bold text-purple-100 tracking-widest">INVOICE</h2>
+                                <p class="font-mono text-gray-800 font-bold mt-1">#${bookingData.id}</p>
+                                <p class="text-sm text-gray-500 mt-1">${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                            </div>
+                        </div>
+
+                        <!-- Info Customer -->
+                        <div class="flex justify-between mb-8 bg-gray-50 p-6 rounded-lg">
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Billed To</h4>
+                                <p class="font-bold text-lg text-gray-800">${bookingData.guestName}</p>
+                                <p class="text-gray-600">${bookingData.guestPhone}</p>
+                            </div>
+                            <div class="text-right">
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Payment Status</h4>
+                                <span class="bg-green-100 text-green-700 px-4 py-1 rounded-full font-bold text-xs border border-green-200 uppercase tracking-wide">PAID / LUNAS</span>
+                            </div>
+                        </div>
+
+                        <!-- Tabel Item -->
+                        <table class="w-full mb-8">
+                            <thead>
+                                <tr class="text-gray-500 text-xs uppercase tracking-wider text-left border-b border-gray-200">
+                                    <th class="py-3 px-2 w-1/2">Item Description</th>
+                                    <th class="py-3 px-2 text-center">Duration</th>
+                                    <th class="py-3 px-2 text-right">Price</th>
+                                    <th class="py-3 px-2 text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700 text-sm">
+                                <tr class="border-b border-gray-100">
+                                    <td class="py-4 px-2">
+                                        <p class="font-bold text-base text-gray-800">${bookingData.roomName}</p>
+                                        <p class="text-purple-600 text-xs font-bold bg-purple-50 inline-block px-2 py-0.5 rounded mt-1">${bookingData.unitName}</p>
+                                        <div class="mt-2 text-xs text-gray-500 grid grid-cols-2 gap-2 max-w-xs">
+                                            <div><span class="font-semibold">Check-in:</span><br>${bookingData.checkIn}</div>
+                                            <div><span class="font-semibold">Check-out:</span><br>${bookingData.checkOut}</div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-2 text-center align-top pt-5">${bookingData.nights} Malam</td>
+                                    <td class="py-4 px-2 text-right align-top pt-5">${formatRp(bookingData.pricePerNight)}</td>
+                                    <td class="py-4 px-2 text-right font-bold align-top pt-5">${formatRp(bookingData.totalPrice)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Total -->
+                        <div class="flex justify-end mb-10">
+                            <div class="w-1/2">
+                                <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                                    <span class="text-gray-600">Subtotal</span>
+                                    <span class="font-semibold">${formatRp(bookingData.totalPrice)}</span>
+                                </div>
+                                <div class="flex justify-between items-center py-4">
+                                    <span class="text-xl font-bold text-gray-800">Grand Total</span>
+                                    <span class="text-2xl font-bold text-purple-600">${formatRp(bookingData.totalPrice)}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Invoice -->
+                        <div class="text-center text-gray-400 text-xs border-t border-gray-100 pt-6">
+                            <p class="mb-1">Thank you for choosing Royal Paradise Hotel.</p>
+                            <p>This is a computer-generated invoice and valid without signature.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="max-w-3xl mx-auto mt-8 flex flex-col md:flex-row gap-4 no-print justify-center">
+                        <button onclick="window.print()" class="bg-gray-800 text-white px-6 py-3 rounded-lg shadow hover:bg-black transition flex items-center justify-center">
+                            <i class="fa-solid fa-print mr-2"></i> Cetak PDF
+                        </button>
+                        <button onclick="sendWhatsApp('${bookingData.id}')" class="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition flex items-center justify-center">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> Kirim Konfirmasi ke Admin
+                        </button>
+                    </div>
+                </div>`;
+            },
+
+            myBookings: () => {
+                return `
+                <div class="container mx-auto px-4 py-12 text-center fade-in">
+                    <h2 class="text-2xl font-bold mb-6">Cek Pesanan Saya</h2>
+                    <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+                        <input type="text" id="searchId" placeholder="Masukkan ID Booking (contoh: 171...)" class="w-full px-4 py-2 border rounded mb-4 focus:ring-2 focus:ring-purple-500 outline-none">
+                        <button onclick="searchBooking()" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition">Cari Pesanan</button>
+                    </div>
+                    <div id="searchResult" class="mt-8 max-w-3xl mx-auto"></div>
+                </div>`;
+            },
+
+            adminLogin: () => `
+                <div class="min-h-[60vh] flex items-center justify-center fade-in">
+                    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-100">
+                        <div class="text-center mb-8">
+                            <i class="fa-solid fa-user-shield text-4xl text-gray-800 mb-4"></i>
+                            <h2 class="text-2xl font-bold text-gray-800">Admin Portal</h2>
+                        </div>
+                        <form onsubmit="handleAdminLogin(event)">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                                <input type="text" id="adminUser" class="w-full px-3 py-2 border rounded focus:ring-purple-500 outline-none">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                                <input type="password" id="adminPass" class="w-full px-3 py-2 border rounded focus:ring-purple-500 outline-none">
+                            </div>
+                            <button type="submit" class="w-full bg-gray-800 text-white py-2 rounded hover:bg-black transition font-bold">Masuk Dashboard</button>
+                        </form>
+                    </div>
+                </div>
+            `,
+
+            adminDashboard: () => {
+                const bookings = db.getBookings().reverse(); // Terbaru diatas
+                let rows = '';
+                bookings.forEach(b => {
+                    const isBooked = b.status === 'Paid' && db.getUnitStatus(b.unitId) === 'booked';
+                    const isActive = b.status === 'Paid' || b.status === 'Pending Payment';
+                    
+                    rows += `
+                    <tr class="border-b hover:bg-gray-50 transition">
+                        <td class="py-4 px-4 font-mono text-sm text-gray-500">#${b.id.slice(-6)}</td>
+                        <td class="py-4 px-4">
+                            <div class="font-bold text-gray-800">${b.guestName}</div>
+                            <div class="text-xs text-gray-500 flex items-center mt-1"><i class="fa-brands fa-whatsapp mr-1 text-green-500"></i> ${b.guestPhone}</div>
+                        </td>
+                        <td class="py-4 px-4">
+                            <div class="text-sm font-semibold">${b.roomName}</div>
+                            <span class="text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded border border-purple-100">${b.unitName}</span>
+                        </td>
+                        <td class="py-4 px-4 text-sm">
+                            <div class="text-gray-600">${b.checkIn}</div>
+                            <div class="text-gray-400 text-xs">sampai</div>
+                            <div class="text-gray-600">${b.checkOut}</div>
+                        </td>
+                        <td class="py-4 px-4 font-bold text-gray-800">${formatRp(b.totalPrice)}</td>
+                        <td class="py-4 px-4 text-center">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${b.status === 'Paid' ? 'bg-green-100 text-green-800' : (b.status === 'Cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800')}">
+                                ${b.status}
+                            </span>
+                        </td>
+                        <td class="py-4 px-4 text-center space-x-1">
+                            ${isBooked ? 
+                                `<button onclick="handleCheckout('${b.unitId}')" class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200 transition" title="Tamu Check-out">
+                                    Checkout
+                                </button>` 
+                                : ''
+                            }
+                            ${isActive ?
+                                `<button onclick="handleCancelBooking('${b.id}')" class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded hover:bg-red-200 transition" title="Batalkan Pesanan">
+                                    Batal
+                                </button>`
+                                : ''
+                            }
+                            ${!isActive && !isBooked ? '<span class="text-xs text-gray-400">-</span>' : ''}
+                        </td>
+                    </tr>`;
+                });
+
+                return `
+                <div class="container mx-auto px-4 py-8 fade-in">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">Admin Dashboard</h2>
+                            <p class="text-gray-500 text-sm">Kelola pesanan dan ketersediaan kamar</p>
+                        </div>
+                        <div class="mt-4 md:mt-0 flex items-center space-x-4">
+                            <div class="text-right mr-4 hidden md:block">
+                                <p class="text-xs text-gray-400">Login sebagai</p>
+                                <p class="font-bold text-gray-800">Administrator</p>
+                            </div>
+                            <button onclick="router.navigate('home')" class="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-lg font-medium transition text-sm">
+                                <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                        <div class="overflow-x-auto">
+                            <table class="w-full min-w-[800px]">
+                                <thead class="bg-gray-50 border-b border-gray-200">
+                                    <tr>
+                                        <th class="py-3 px-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">ID</th>
+                                        <th class="py-3 px-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Tamu</th>
+                                        <th class="py-3 px-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Unit Kamar</th>
+                                        <th class="py-3 px-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Tanggal</th>
+                                        <th class="py-3 px-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Total</th>
+                                        <th class="py-3 px-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="py-3 px-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    ${bookings.length > 0 ? rows : '<tr><td colspan="7" class="text-center py-12 text-gray-400 italic">Belum ada data pesanan masuk</td></tr>'}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>`;
+            }
+        };
+
+        // ==========================================
+        // 4. EVENT HANDLERS & LOGIC
+        // ==========================================
+
+        function attachListeners() {
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobileMenuBtn');
+            if(btn) {
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                newBtn.addEventListener('click', toggleMenu);
+            }
+
+            // Date Input Listeners for Duration Calculation
+            const checkIn = document.getElementById('checkIn');
+            const checkOut = document.getElementById('checkOut');
+            const durationInfo = document.getElementById('stayDurationInfo');
+            const durationText = document.getElementById('durationDays');
+
+            if (checkIn && checkOut) {
+                const calculate = () => {
+                    if (checkIn.value && checkOut.value) {
+                        const d1 = new Date(checkIn.value);
+                        const d2 = new Date(checkOut.value);
+                        const timeDiff = d2.getTime() - d1.getTime();
+                        const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                        
+                        if (nights > 0) {
+                            durationInfo.classList.remove('hidden');
+                            durationText.innerText = nights;
+                        } else {
+                            durationInfo.classList.add('hidden');
+                        }
+                    }
+                };
+                checkIn.addEventListener('change', calculate);
+                checkOut.addEventListener('change', calculate);
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- Slider Logic ---
+        window.changeSlide = (unitId, direction) => {
+            const unit = ROOM_UNITS.find(u => u.id === unitId);
+            if (!unit) return;
+
+            const totalImages = unit.images.length;
+            let currentIdx = sliderIndices[unitId] || 0;
+            
+            // Calculate new index
+            let newIdx = currentIdx + direction;
+            if (newIdx >= totalImages) newIdx = 0;
+            if (newIdx < 0) newIdx = totalImages - 1;
+
+            // Update state
+            sliderIndices[unitId] = newIdx;
+
+            // Update UI
+            // 1. Hide all images, show new one
+            for (let i = 0; i < totalImages; i++) {
+                const img = document.getElementById(`img-${unitId}-${i}`);
+                const dot = document.getElementById(`dot-${unitId}-${i}`);
+                if (img && dot) {
+                    if (i === newIdx) {
+                        img.classList.remove('opacity-0', 'z-0');
+                        img.classList.add('opacity-100', 'z-10');
+                        dot.classList.remove('bg-opacity-50', 'w-2');
+                        dot.classList.add('bg-opacity-100', 'w-4');
+                    } else {
+                        img.classList.remove('opacity-100', 'z-10');
+                        img.classList.add('opacity-0', 'z-0');
+                        dot.classList.remove('bg-opacity-100', 'w-4');
+                        dot.classList.add('bg-opacity-50', 'w-2');
+                    }
+                }
+            }
+        };
+
+        // --- Booking Logic ---
+        window.handleBookingSubmit = (e, unitId) => {
+            e.preventDefault();
+            
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            const guestName = document.getElementById('guestName').value;
+            const guestPhone = document.getElementById('guestPhone').value;
+            const guestNotes = document.getElementById('guestNotes').value;
+
+            // Hitung durasi malam
+            const d1 = new Date(checkIn);
+            const d2 = new Date(checkOut);
+            const timeDiff = d2.getTime() - d1.getTime();
+            const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            if (nights <= 0) {
+                alert("Tanggal Check-out harus setelah Check-in!");
+                return;
+            }
+
+            const unit = ROOM_UNITS.find(u => u.id === unitId);
+            const cat = ROOM_CATEGORIES.find(c => c.id === unit.categoryId);
+
+            // Simpan ke state sementara (tempBooking)
+            tempBooking = {
+                id: Date.now().toString(),
+                categoryId: cat.id,
+                roomName: cat.name,
+                unitId: unit.id,
+                unitName: unit.name,
+                pricePerNight: unit.price,
+                checkIn, checkOut, nights,
+                guestName, guestPhone, guestNotes,
+                totalPrice: unit.price * nights,
+                status: 'Pending Payment'
+            };
+
+            // Pindah ke halaman pembayaran
+            router.navigate('payment');
+        };
+
+        // --- Payment Logic ---
+        window.handlePaymentSubmit = (e) => {
+            e.preventDefault();
+            
+            // 1. Ubah status booking jadi Paid
+            tempBooking.status = "Paid";
+            
+            // 2. Simpan Booking ke History
+            db.saveBooking(tempBooking);
+
+            // 3. UPDATE STATUS KAMAR JADI BOOKED (PENTING!)
+            // Ini akan membuat kamar tidak tersedia untuk orang lain
+            db.updateUnitStatus(tempBooking.unitId, 'booked');
+
+            // Simulasi Loading
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert("Pembayaran Berhasil! Kamar telah diamankan untuk Anda.");
+                const bookingFinal = {...tempBooking};
+                tempBooking = null; // Reset temp
+                router.navigate('invoice', bookingFinal);
+            }, 1500);
+        };
+
+        // --- WhatsApp Logic ---
+        window.sendWhatsApp = (bookingId) => {
+            const bookings = db.getBookings();
+            const booking = bookings.find(b => b.id === bookingId);
+            
+            if(!booking) return;
+
+            const text = `
+*Halo Admin Royal Paradise,*
+Saya telah melakukan pembayaran invoice #${booking.id}.
+
+*Detail Pesanan:*
+Nama: ${booking.guestName}
+Kamar: ${booking.unitName}
+Tanggal: ${booking.checkIn} s/d ${booking.checkOut}
+Total: ${formatRp(booking.totalPrice)}
+
+Mohon konfirmasinya. Terima kasih!`.trim();
+
+            const url = `https://wa.me/${HOTEL_WA}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        };
+
+        // --- Admin Logic ---
+        window.handleAdminLogin = (e) => {
+            e.preventDefault();
+            const u = document.getElementById('adminUser').value;
+            const p = document.getElementById('adminPass').value;
+
+            if (u === ADMIN_AUTH.user && p === ADMIN_AUTH.pass) {
+                router.navigate('admin-dashboard');
+            } else {
+                alert("Username atau Password salah!");
+            }
+        };
+
+        // --- Admin Checkout Logic ---
+        window.handleCheckout = (unitId) => {
+            if(confirm("Apakah Anda yakin tamu sudah check-out? Status kamar akan kembali menjadi 'Tersedia'.")) {
+                db.updateUnitStatus(unitId, 'available');
+                router.navigate('admin-dashboard'); // Refresh table
+            }
+        };
+
+        // --- Admin Cancel Logic ---
+        window.handleCancelBooking = (bookingId) => {
+            if(confirm("Yakin ingin membatalkan pesanan ini? Kamar akan otomatis menjadi 'Tersedia' kembali.")) {
+                const bookings = db.getBookings();
+                const bookingIndex = bookings.findIndex(b => b.id === bookingId);
+                
+                if (bookingIndex > -1) {
+                    const booking = bookings[bookingIndex];
+                    
+                    // Update booking status
+                    booking.status = 'Cancelled';
+                    bookings[bookingIndex] = booking;
+                    localStorage.setItem('rp_bookings', JSON.stringify(bookings));
+                    
+                    // Reset room status
+                    db.updateUnitStatus(booking.unitId, 'available');
+                    
+                    // Refresh UI
+                    router.navigate('admin-dashboard');
+                }
+            }
+        };
+
+        // --- Search Booking Logic ---
+        window.searchBooking = () => {
+            const id = document.getElementById('searchId').value.trim();
+            const bookings = db.getBookings();
+            const result = bookings.find(b => b.id.includes(id));
+            const div = document.getElementById('searchResult');
+
+            if(result) {
+                div.innerHTML = `
+                    <div class="bg-white border-l-4 border-green-500 p-6 rounded shadow-md text-left fade-in">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-lg mb-1">Pesanan Ditemukan</h3>
+                                <p class="text-sm text-gray-500 mb-4">ID: #${result.id}</p>
+                            </div>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold uppercase">${result.status}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+                            <div>
+                                <p class="text-gray-500">Nama Tamu</p>
+                                <p class="font-semibold">${result.guestName}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Unit Kamar</p>
+                                <p class="font-semibold">${result.unitName}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Check In</p>
+                                <p class="font-semibold">${result.checkIn}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">Check Out</p>
+                                <p class="font-semibold">${result.checkOut}</p>
+                            </div>
+                        </div>
+                        <button onclick='router.navigate("invoice", ${JSON.stringify(result)})' class="w-full bg-gray-800 text-white px-4 py-2 rounded hover:bg-black transition">Lihat Invoice</button>
+                    </div>
+                `;
+            } else {
+                div.innerHTML = `
+                <div class="bg-red-50 border border-red-200 text-red-600 p-4 rounded fade-in">
+                    <i class="fa-solid fa-circle-exclamation mr-2"></i> Booking ID tidak ditemukan!
+                </div>`;
+            }
+        };
+
+        // Initialize App
+        
+        router.navigate('home');
+
     </script>
 </body>
 </html>
